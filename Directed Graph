@@ -1,0 +1,121 @@
+
+import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
+
+public class DirectedGraph<V> implements GraphADT<V>{
+	
+	private HashMap<V, ArrayList<V>> hashmap; // hashmap for the Directed Graph
+
+	/**
+	 * No-args constructor for the Directed Graph
+	 */
+    public DirectedGraph(){
+    	hashmap = new HashMap<V, ArrayList<V>>();
+    }
+
+    /**
+     * Constructor for the Directed Graph with a given hashmap
+     * @param hashmap - hashmap of the directed graph
+     */
+    public DirectedGraph(HashMap<V, ArrayList<V>> hashmap) {
+    	if (hashmap == null) throw new IllegalArgumentException();
+    	this.hashmap = hashmap;
+    }
+
+    /**
+     * Adds a vertex to the directed graph if it is not already in the directed graph
+     * @param vertex - vertex to be added to the directed graph
+     * @return - true if the vertex was successfully added, and false if not
+     */
+    @Override
+    public boolean addVertex(V vertex) {
+    	
+    	if (vertex == null) throw new IllegalArgumentException();
+    	if (hashmap.containsKey(vertex)) return false;
+    	hashmap.put(vertex, new ArrayList<V>());
+    	return true;
+    }
+
+    /**
+     * Adds an edge to the directed graph, if the two given verteces are not equal and the edge does 
+     * not already exist
+     * @param v1 - first vertex to put the edge between
+     * @param v2 - second vertex to put the edge between
+     * @return - true if the edge was successfully added, and false if not
+     */
+    @Override
+    public boolean addEdge(V v1, V v2) {
+    	
+    	if (v1 == null || v2 == null) throw new IllegalArgumentException();
+    	if (hashmap.containsKey(v1) && hashmap.containsKey(v2)){
+    		if (v1.equals(v2)) return false;
+    		if(hashmap.get(v1).contains(v2)) return false;
+    		hashmap.get(v1).add(v2);
+    		return true;
+    	}
+    	throw new IllegalArgumentException();
+    }
+
+    /**
+     * Gives a set of all verteces that are connected to the given vertex by an edge (if vertex v already exists)
+     * @param vertex - vertex to get all of the neighbors of
+     * @return - the set of all verteces connected to the given vertex
+     */
+    @Override
+    public Set<V> getNeighbors(V vertex) {
+    	
+    	if (!hashmap.containsKey(vertex)) throw new IllegalArgumentException();
+    	if (hashmap.containsKey(vertex)){
+    		Set<V> allNeighbors = new HashSet<V>();
+    		Iterator<V> itr = hashmap.get(vertex).iterator();
+
+        	while(itr.hasNext()){
+        		allNeighbors.add(itr.next());
+        	}
+        	return allNeighbors;
+    	}
+    	throw new IllegalArgumentException();
+    }
+
+    /**
+     * Removes an edge between two verteces from the directed graph (if an edge exists between the two vertices)
+     * @param v1 - one vertex of the edge to be removed
+     * @param v2 - the other vertex of the edge to be removed
+     */
+    @Override
+    public void removeEdge(V v1, V v2) {
+    	
+    	//Checks to see if v1 and v2 are null
+		if (v1 == null || v2 == null) throw new IllegalArgumentException();
+		if (hashmap.containsKey(v1) && hashmap.containsKey(v2)){
+			if (!v1.equals(v2) && hashmap.get(v1).contains(v2)) hashmap.get(v1).remove(v2);
+		}
+		else throw new IllegalArgumentException();
+    }
+
+    @Override
+    /**
+     * Return a set of all the vertices in the Directed Graph
+     * @return - all vertices in the DG
+     */
+    public Set<V> getAllVertices() {
+    	return hashmap.keySet();
+    }
+
+    /**
+     * Returns a string of the directed graph
+     * @return String of the DG
+     */
+    public String toString() {
+        StringWriter writer = new StringWriter();
+        for (V vertex: this.hashmap.keySet()) {
+            writer.append(vertex + " -> " + hashmap.get(vertex) + "\n");
+        }
+        return writer.toString();
+    }
+
+}
