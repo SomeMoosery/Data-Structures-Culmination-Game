@@ -1,0 +1,113 @@
+
+import java.util.Iterator;
+import java.util.Set;
+
+public class Player {
+	
+	private String name; // player name
+	private Set<Item> magicSack; // the magic sack held by the player that contains all his/her items
+
+	/**
+	 * Constructor for the Player class
+	 * @param name - player's name
+	 * @param startingItems - items the player starts with 
+	 */
+	public Player(String name, Set<Item> startingItems){
+		this.name = name;
+		this.magicSack = startingItems;
+	}
+	
+	/**
+	 * Tells the user the player's name (although the user should probably know his own name)
+	 * @return - the name of the player 
+	 */
+	public String getName(){
+    	return name;
+	}
+	
+	/**
+	 * Returns a String consisting of the items in the sack
+	 * @return - String of items in sack
+	 */
+	public String printSack(){
+		//neatly printed items in sack
+		StringBuilder sb = new StringBuilder();
+		sb.append("Scanning contents of your magic sack");
+		sb.append(System.getProperty("line.separator"));
+		for(Item itm : magicSack){
+			sb.append(itm.getName());
+			sb.append(System.getProperty("line.separator"));
+		}
+		return sb.toString();
+	}
+	
+	/**
+	 * Finds the items which are currently activated 
+	 * @return - items that have been activated
+	 */
+	@SuppressWarnings("null")
+	public Set<Item> getActiveItems(){
+		Set<Item> activeItems = null;
+    	Iterator<Item> itr = magicSack.iterator();
+    	while (itr.hasNext()){
+    		Item curr = itr.next();
+    		if(curr.activated()) activeItems.add(curr);
+    	}
+    	return activeItems;
+	}
+	
+	/**
+	 * Finds the given item in the sack (if it is in fact in said sack)
+	 * @param item - item to be found
+	 * @return - the item we searched for if it's found, null if not
+	 */
+	public Item findItem(String item){
+    	Iterator<Item> itr = magicSack.iterator();
+    	while(itr.hasNext()){
+    		Item curr = itr.next();
+    		if(curr.getName().equals(item)) return curr;
+    	}
+    	return null;
+	}
+	
+	/**
+	 * Similar to findItem, but simply determines whether the item is in the sack or not
+	 * @param item - item to be found (hopefully) in the sack
+	 * @return - true if the item is found, false if not
+	 */
+	public boolean hasItem(Item item){
+    	Iterator<Item> itr = magicSack.iterator();
+    	while(itr.hasNext()){
+    		if(itr.next().equals(item)) return true;
+    	}
+    	return false;
+	}
+	
+	/**
+	 * Adds an item to the player's sack
+	 * @param item - item to be added to the player's sack
+	 * @return - true if the item is added, false if not
+	 */
+	public boolean addItem(Item item){
+    	Iterator<Item> itr = magicSack.iterator();
+    	while(itr.hasNext()){
+    		if (itr.next().equals(item)) return false;
+    	}
+    	magicSack.add(item);
+    	return true;
+	}
+	
+	/**
+	 * Removes an item from the player's sack
+	 * @param item - item to be removed from the player's sack
+	 * @return - true if the item was successfully removed, false if not
+	 */
+	public boolean removeItem(Item item){
+    	Iterator<Item> itr = magicSack.iterator();
+    	while(itr.hasNext()){
+    		if(itr.next().equals(item)) magicSack.remove(itr.next());
+    		return true;
+    	}
+    	return false;
+	}
+}
