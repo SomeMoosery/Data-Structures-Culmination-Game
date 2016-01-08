@@ -1,0 +1,103 @@
+
+public class Item {
+	
+	private String	name; // name of item
+	private String	description; // description of item
+	private boolean activated; // indicator if the item is activated
+	private String message; // message the item tells the user
+	private boolean oneTimeUse; // indicator if the item has one time use
+	private String usedString; // message the item displays when it is used	
+	
+	
+	/**
+	 * Constructor for the item class.
+	 * 
+	 * @param name - name of the item
+	 * @param description - description of the item
+	 * @param activated - determines whether or not the item is activated automatically. True if so, false otherwise
+	 * @param message - item message
+	 * @param oneTimeUse - determines whether or not the item has a one-time use. Ture if so, false otherwise
+	 * @param usedString - message to be displayed once the item is used
+	 */
+	public Item(String name, String description, boolean activated, 
+			String message,boolean oneTimeUse, String usedString){
+    	
+		this.name = name;
+		this.description = description;
+		this.activated = activated;
+		this.message = message;
+		this.oneTimeUse = oneTimeUse;
+		this.usedString = usedString;
+	}
+	
+	/**
+	 * Returns the name of the Item
+	 * @return - name of item
+	 */
+	public String getName(){
+    	return name;
+	}
+	
+	/**
+	 * Returns the description of the Item
+	 * @return - description of the Item
+	 */
+	public String getDescription(){
+    	return description;
+	}
+	
+	/**
+	 * Tells the user whether or not the item has been activated / is automatically activated
+	 * @return - true if the item is activated, false if not
+	 */
+	public boolean activated(){
+    	if (activated == true) return true;
+    	else return false;
+	}
+	
+	/**
+	 * Returns the "message" that the item wants to send to the room. 
+	 * This is used in the notifyRoom() function in TheGame class
+	 * @return - message item wants to send to the room
+	 */
+	public String on_use(){
+    	return message;
+	}
+	
+	/**
+	 * Activates the item
+	 */
+	public void activate(){
+    	activated = true;
+	}
+	
+	/**
+	 * Returns the "on_useString" for the Item. 
+	 * This is printed in the notifyRoom() function in TheGame class after an item has been used and is active.
+	 * @return - what the item does when used
+	 */
+	public String on_useString(){
+    	return usedString;
+	}
+	
+	/**
+	 * Tells the user whether or not the item is one-time-use
+	 * @return - true if the item is one time use, false if not
+	 */
+	public boolean isOneTimeUse(){
+    	if (oneTimeUse == true) return true;
+    	else return false;
+	}
+
+	/**
+	 * returns a String consisting of the name and description of the Item
+	 * @return String of name & description
+	 */
+	public String toString(){
+		StringBuilder sb = new StringBuilder();
+		sb.append("Item Name: " + this.name);
+		sb.append(System.getProperty("line.separator"));
+		sb.append("Description: " + this.description);
+		return sb.toString();
+	}
+}
